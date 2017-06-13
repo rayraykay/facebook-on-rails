@@ -27,8 +27,17 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
+
+# additions for this project, Raymond Kim
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
+# to be able to use console (macOS)
+gem 'rb-readline'
+# to enable json response and queries
+gem 'responders'
+# various js frameworks
+gem 'react-rails'
+gem 'jquery-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
