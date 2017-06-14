@@ -3,12 +3,14 @@ class Userhome extends React.Component {
         super(props);
         this.state = {
             user_id: this.props.current_user,
+            allUsers: [],
 
             searchBarText: "",
 
             statusList: [],
             statusBoxText: "",
 
+            rawCommentList: [],
             commentList: [],
             commentInputText: [],
             beingCommented: [],
@@ -16,34 +18,34 @@ class Userhome extends React.Component {
     }
 
     handleSearchBarChange (text) {
-        this.setState({
-            searchBarText: text
-        });
+        this.setState({ searchBarText: text });
     }
 
     handleInputChange (text) {
-        this.setState({
-            statusBoxText: text
-        });
+        this.setState({ statusBoxText: text });
     }
 
     handleNewStatus (postType, postData) {
-        let toPush;
-
-        if (postType === "link") {
-            toPush = <a href={this.state.statusBoxText}>LINK</a>;
-        }
-        else {
-            toPush = this.state.statusBoxText;
+        if (postType === "image") {
+            console.log("images to be added later");
         }
 
-        // add new status
-        const newStatusList = this.state.statusList.slice();
-        newStatusList.push(toPush);
-
-        // add empty array for comments
-        const newCommentList = this.state.commentList.slice();
-        newCommentList.push([]);
+        // add new status to database
+        $.ajax({
+            url: "statuses",
+            type: "POST",
+            data: {
+                status: {
+                    content: this.state.statusBoxText,
+                    user_id: this.state.user_id
+                }
+            }
+        })
+        .done( () => console.log("Success: Status successfully entered into database") )
+        .fail( () => {
+            console.log("Error: Status post ERROR");
+            window.alert("Error: Status post ERROR");
+        } );
 
         // add empty array for comment input boxes
         const newcommentInputText = this.state.commentInputText.slice();
@@ -54,13 +56,13 @@ class Userhome extends React.Component {
         newBeingCommented.push(false);
 
         this.setState({
-            statusList: newStatusList,
             statusBoxText: "",
 
-            commentList: newCommentList,
             commentInputText: newcommentInputText,
             beingCommented: newBeingCommented,
         });
+
+        this.refreshStateFromDatabase();
     }
 
     handleNewComment (statusIndex) {
@@ -86,45 +88,128 @@ class Userhome extends React.Component {
         let newBeingCommented = this.state.beingCommented.slice();
         newBeingCommented[statusIndex] = !newBeingCommented[statusIndex];
 
-        this.setState({
-            beingCommented: newBeingCommented
-        });
+        this.setState({ beingCommented: newBeingCommented });
     }
 
     handleCommentInputChange (text, statusIndex) {
-        let newcommentInputText = this.state.commentInputText.slice();
-        newcommentInputText[statusIndex] = text;
+        let newCommentInputText = this.state.commentInputText.slice();
+        newCommentInputText[statusIndex] = text;
 
         this.setState({
-            commentInputText: newcommentInputText
+            commentInputText: newCommentInputText
         });
     }
 
-    componentDidMount () {
+    componentWillMount () {
         this.refreshStateFromDatabase();
     }
 
+    // this function has horrible time complexity, but whatever haha
     refreshStateFromDatabase () {
+        // refresh users
         $.ajax({
             url:        "users.json",
             type:       "GET",
             dataType:   "json",
         })
         .done(
+            (response) => { this.setState({ allUsers: response }) }
+        )
+        .fail(
+            (response) => { window.alert('Failure to GET users from database', response); }
+        );
+
+        // refresh statuses
+        $.ajax({
+            url:        "statuses.json",
+            type:       "GET",
+            dataType:   "json",
+        })
+        .done(
             (response) => {
-                window.alert("GET success from database, length of user database is " + response.length +
-                  ", current user is " + find_user_by_id(response, this.state.user_id).username);
+                this.setState({ statusList: response });
+                this.refreshComments();
             }
         )
         .fail(
-            (response) => { window.alert('Failure to GET from database', response); }
+            (response) => { window.alert('Failure to GET statuses from database', response); }
         );
     }
 
+    // for debugging
+    test (location) {
+        console.log(this.state.statusList.length + " statuses in " + location);
+    }
+
+    // only to be called after statuses have been loaded
+    refreshComments () {
+        $.ajax({
+            url:        "comments.json",
+            type:       "GET",
+            dataType:   "json",
+        })
+        .done(
+            (response) => {
+                this.setState({
+                    rawCommentList: this.processRawComments(response)
+                });
+            }
+        )
+        .fail(
+            (response) => { window.alert('Failure to GET comments from database', response); }
+        );
+    }
+
+    processRawComments (rawCommentList) {
+        // now process rawCommentList into the data structure we need
+        // each status will have a corresponding array of comments in
+        // the commentList property in the state
+
+        // the data structure generation here has horrible time complexity,
+        // but whatever
+        let commentListToAssign = [];
+
+        for (let i = 0; i < this.state.statusList.length; i++) {
+            let toPush = [];
+
+            for (let j = 0; j < rawCommentList.length; j++) {
+                if (this.state.statusList[i].id == rawCommentList[j].status_id) {
+                    toPush.push(rawCommentList[j]);
+                }
+            }
+
+            // only push if not empty
+            if (toPush.length) {
+                commentListToAssign.push(toPush);
+            }
+        }
+
+        console.log(commentListToAssign.length);
+        return commentListToAssign;
+    }
+
     render () {
+        let fapy = [];
+        console.log(fapy.length + "is good");
+
         return (
             <div className="userhome">
-                <h1>React: {this.state.user_id}</h1>
+                <h2>Here's what's going on today, boy</h2>
+                <StatusInput    onClick={(postType) => this.handleNewStatus(postType)}
+                                handleInputChange={(inputText) => this.handleInputChange(inputText)}
+                                text={this.state.statusBoxText}
+                />
+                <Timeline   allUsers={this.state.allUsers}
+                            statusList={this.state.statusList}
+
+                            commentList={this.state.commentList}
+                            beingCommented={this.state.beingCommented}
+                            commentInputText={this.state.commentInputText}
+                            handleBeingCommented={(statusIndex) => this.handleBeingCommented(statusIndex)}
+                            handleCommentInputChange={
+                                (text, statusIndex) => this.handleCommentInputChange(text, statusIndex)
+                            }
+                            handleNewComment={(statusIndex) => this.handleNewComment(statusIndex)}/>
             </div>
         );
     }

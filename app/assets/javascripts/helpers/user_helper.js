@@ -12,7 +12,7 @@ function find_user_by_name (json_response, username) {
     return null;
 }
 
-function find_user_by_id (json_response, id) {
+function find_item_by_id (json_response, id) {
     for (let i = 0; i < json_response.length; i++) {
         if (json_response[i].id == id) {
             return json_response[i];

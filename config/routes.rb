@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'comments/index'
+
+  get 'statuses/index'
+
     root    'static_pages#index'
     get     '/signup'       => 'users#new'
     post    '/signup'       => 'users#create'
@@ -8,4 +12,6 @@ Rails.application.routes.draw do
     get     '/timeline'     => 'userhome#index'
 
     resources :users
+    resources :statuses
+    resources :comments
 end
