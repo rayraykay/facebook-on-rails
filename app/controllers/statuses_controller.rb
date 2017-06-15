@@ -1,10 +1,6 @@
 class StatusesController < ApplicationController
     def index
-        if request.xhr?
-            respond_with Status.all
-        else
-            #
-        end
+        respond_with Status.all if request.xhr?
     end
 
     def create

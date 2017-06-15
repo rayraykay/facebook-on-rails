@@ -121,6 +121,7 @@ class Userhome extends React.Component {
             (response) => { window.alert('Failure to GET users from database', response); }
         );
 
+        var self = this;
         // refresh statuses
         $.ajax({
             url:        "statuses.json",
@@ -130,8 +131,9 @@ class Userhome extends React.Component {
         .done(
             (response) => {
                 console.log("Successfully GETed statuses");
-                this.setState({ statusList: response });
-                this.refreshComments();
+                this.setState({ statusList: response }, function () {
+                    self.refreshComments();
+                });
             }
         )
         .fail(
