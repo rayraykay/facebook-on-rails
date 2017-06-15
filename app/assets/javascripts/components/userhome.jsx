@@ -55,14 +55,13 @@ class Userhome extends React.Component {
         const newBeingCommented = this.state.beingCommented.slice();
         newBeingCommented.push(false);
 
+        this.refreshStateFromDatabase();
         this.setState({
             statusBoxText: "",
 
             commentInputText: newcommentInputText,
             beingCommented: newBeingCommented,
         });
-
-        this.refreshStateFromDatabase();
     }
 
     handleNewComment (statusIndex) {
@@ -108,12 +107,15 @@ class Userhome extends React.Component {
     refreshStateFromDatabase () {
         // refresh users
         $.ajax({
-            url:        "users.json",
+            url:        "/users",
             type:       "GET",
             dataType:   "json",
         })
         .done(
-            (response) => { this.setState({ allUsers: response }) }
+            (response) => {
+                this.setState({ allUsers: response.data });
+                console.log("Successfuly GETed users");
+            }
         )
         .fail(
             (response) => { window.alert('Failure to GET users from database', response); }
@@ -127,6 +129,7 @@ class Userhome extends React.Component {
         })
         .done(
             (response) => {
+                console.log("Successfully GETed statuses");
                 this.setState({ statusList: response });
                 this.refreshComments();
             }
@@ -150,9 +153,8 @@ class Userhome extends React.Component {
         })
         .done(
             (response) => {
-                this.setState({
-                    rawCommentList: this.processRawComments(response)
-                });
+                console.log("Successfully GETed comments");
+                this.setState({ rawCommentList: this.processRawComments(response) });
             }
         )
         .fail(
@@ -184,14 +186,10 @@ class Userhome extends React.Component {
             }
         }
 
-        console.log(commentListToAssign.length);
         return commentListToAssign;
     }
 
     render () {
-        let fapy = [];
-        console.log(fapy.length + "is good");
-
         return (
             <div className="userhome">
                 <h2>Here's what's going on today, boy</h2>

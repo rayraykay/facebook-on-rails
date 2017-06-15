@@ -3,7 +3,8 @@ class UsersController < ApplicationController
 
     def index
         if request.xhr?
-            respond_with User.all
+            return render json: { status: :ok, data: User.all }
+            #respond_with User.all
         else
             # for now, only ajax requests served
         end
@@ -26,7 +27,8 @@ class UsersController < ApplicationController
                 render 'new'
             end
         else
-            respond_with @new_user, json: @new_user
+            #respond_with @new_user, json: @new_user
+            return render json: { data: @new_user }
         end
     end
 
