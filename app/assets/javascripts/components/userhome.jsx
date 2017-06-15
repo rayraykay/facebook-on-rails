@@ -147,14 +147,14 @@ class Userhome extends React.Component {
     // only to be called after statuses have been loaded
     refreshComments () {
         $.ajax({
-            url:        "comments.json",
+            url:        "/comments",
             type:       "GET",
             dataType:   "json",
         })
         .done(
             (response) => {
                 console.log("Successfully GETed comments");
-                this.setState({ rawCommentList: this.processRawComments(response) });
+                this.setState({ rawCommentList: this.processRawComments(response.data) });
             }
         )
         .fail(
