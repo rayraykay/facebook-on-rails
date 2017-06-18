@@ -4,7 +4,8 @@ class UserhomeController < ApplicationController
             return render json: { status:   :ok,
                                   users:    User.all,
                                   statuses: Status.all,
-                                  comments: Comment.all }
+                                  comments: Comment.all,
+                                  replies:  Reply.all }
         else
             # just render index
         end

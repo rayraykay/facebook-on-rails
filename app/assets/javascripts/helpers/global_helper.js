@@ -26,3 +26,11 @@ function find_item_by_id (json_response, id) {
 
     return null;
 }
+
+// debuggers
+function printReplyListData (replyList) {
+    console.log("There are " + replyList.length + " upper levels in replies");
+    for (let i = 0; i < replyList.length; i++) {
+        console.log("In status " + i + ", there are " + replyList[i].length + " lower levels");
+    }
+}

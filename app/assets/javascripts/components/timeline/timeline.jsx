@@ -12,7 +12,7 @@ class Timeline extends React.Component {
                                 key={i}
                                 allUsers={this.props.allUsers}
                                 statusObject={this.props.statusList[i]}
-                                statusIndex={i}
+                                statusIndex={i} // in status list array
 
                                 // props for comments
                                 commentList={this.props.commentList[i]}
@@ -22,6 +22,10 @@ class Timeline extends React.Component {
                                 handleCommentInputChange={
                                     (text) => this.props.handleCommentInputChange(text, i)
                                 }
+
+                                // props for replies
+                                replyList={this.props.replyList[i]}
+                                replyInputText={this.props.replyInputText[i]}
                                 />
                 </div>
             );

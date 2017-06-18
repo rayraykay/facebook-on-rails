@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     # posting routes for the front end
     post    '/statuses/create'
     post    '/comments/create'
+    post    '/replies/create'
 
     resources :user
     resources :status

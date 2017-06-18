@@ -13,6 +13,9 @@ class Userhome extends React.Component {
             commentList: [],
             commentInputText: [],
             beingCommented: [],
+
+            replyList: [],
+            replyInputText: []
         };
     }
 
@@ -38,12 +41,25 @@ class Userhome extends React.Component {
         .done(
             (response) => {
                 console.log("Successfully GETed all data");
+
+                let commentsAndReplies = processRawCommentsAndReplies(response.replies, response.comments, response.statuses);
+
+                let replyInputText = create_array(commentsAndReplies.replyList.length, []);
+                for (let i = 0; i < commentsAndReplies.replyList.length; i++) {
+                    replyInputText[i] = create_array(commentsAndReplies.replyList[i].length, "");
+                }
+
                 this.setState({
                     allUsers:           response.users,
+
                     statusList:         response.statuses,
-                    commentList:        processRawComments(response.comments, response.statuses),
+
+                    commentList:        commentsAndReplies.commentList,
                     commentInputText:   create_array(response.statuses.length, ""),
                     beingCommented:     create_array(response.statuses.length, false),
+
+                    replyList:          commentsAndReplies.replyList,
+                    replyInputText:     replyInputText,
                 });
             }
         )
@@ -76,6 +92,10 @@ class Userhome extends React.Component {
                             handleCommentInputChange={
                                 (text, statusIndex) => this.handleCommentInputChange(text, statusIndex)
                             }
+
+                            // reply props
+                            replyList={this.state.replyList}
+                            replyInputText={this.state.replyInputText}
                 />
             </div>
         );

@@ -1,11 +1,5 @@
 class Status extends React.Component {
     handleNewComment (rootObject, statusIndex, statusID) {
-        let newCommentInputText = rootObject.state.commentInputText.slice();
-        newCommentInputText[statusIndex] = "";
-
-        let newBeingCommented = rootObject.state.beingCommented.slice();
-        newBeingCommented[statusIndex] = !newBeingCommented[statusIndex];
-
         $.ajax({
             url:        "/comments/create",
             type:       "POST",
@@ -16,12 +10,8 @@ class Status extends React.Component {
                             user_id:    rootObject.state.user_id }
                         }
         })
-        .done( (response) => {
+        .done( () => {
                 console.log("Comment POST success.");
-                rootObject.setState({
-                    commentInputText: newCommentInputText,
-                    beingCommented: newBeingCommented
-                });
                 rootObject.refreshStateFromDatabase();
             }
         )
@@ -48,7 +38,8 @@ class Status extends React.Component {
 
         if (this.props.beingCommented) {
             commentElement = (<div className="comment-input">
-                                <input  type="text"
+                                <input  placeholder="Write a comment..."
+                                        type="text"
                                         value={this.props.commentInputText}
                                         onChange={(e) => this.handleCommentInputChange(this.props.rootObject,
                                                             e.target.value, this.props.statusIndex)}>
@@ -68,10 +59,22 @@ class Status extends React.Component {
 
         for (let i = 0; i < this.props.commentList.length; i++) {
             commentList.push(
-                <Comment    key={i}
+                <Comment    // general props
+                            key={i}
                             rootObject={this.props.rootObject}
 
-                            text={this.props.commentList[i].content}/>
+                            // status index in statusList that this comments belongs to
+                            statusIndex={this.props.statusIndex}
+
+                            // comment props
+                            commentObject={this.props.commentList[i]}
+                            text={this.props.commentList[i].content}
+                            commentIndex={i}
+
+                            // reply props
+                            replyList={this.props.replyList[i]}
+                            replyInputText={this.props.replyInputText[i]}
+                            />
             );
         }
 
