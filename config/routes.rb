@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-  get 'comments/index'
-
-  get 'statuses/index'
-
+    # website routes
     root    'static_pages#index'
     get     '/signup'       => 'users#new'
     post    '/signup'       => 'users#create'
@@ -11,7 +8,12 @@ Rails.application.routes.draw do
     get     '/logout'       => 'sessions#destroy'
     get     '/timeline'     => 'userhome#index'
 
-    resources :users
-    resources :statuses
+    # posting routes for the front end
+    post    '/statuses/create'
+    post    '/comments/create'
+
+    resources :user
+    resources :status
     resources :comments
+    resources :replies
 end

@@ -4,11 +4,15 @@ class Timeline extends React.Component {
 
         for (let i = 0; i < this.props.statusList.length; i++) {
             statusList.unshift(
-                <div>
-                    <Status 	key={i}
+                <div className="status" key={i}>
+                    <Status     // general props
+                     	        rootObject={this.props.rootObject}
+
+                                // props for status
+                                key={i}
                                 allUsers={this.props.allUsers}
-                                username={find_item_by_id(this.props.allUsers, this.props.statusList[i].user_id).username.toString()}
-								text={this.props.statusList[i].content}
+                                statusObject={this.props.statusList[i]}
+                                statusIndex={i}
 
                                 // props for comments
                                 commentList={this.props.commentList[i]}
@@ -18,7 +22,7 @@ class Timeline extends React.Component {
                                 handleCommentInputChange={
                                     (text) => this.props.handleCommentInputChange(text, i)
                                 }
-                                handleNewComment={() => this.props.handleNewComment(i)}/>
+                                />
                 </div>
             );
         }

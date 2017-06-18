@@ -9,6 +9,7 @@ class CommentsController < ApplicationController
     end
 
     def create
+        Comment.create(comment_params) if request.xhr?
     end
 
     private
