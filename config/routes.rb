@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get     '/timeline'     => 'userhome#index'
 
     # posting routes for the front end
+    get     '/userhome/search'
     post    '/statuses/create'
     post    '/comments/create'
     post    '/replies/create'

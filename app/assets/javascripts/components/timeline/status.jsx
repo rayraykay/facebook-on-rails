@@ -128,6 +128,7 @@ class Status extends React.Component {
                 <Comment    // general props
                             key={i}
                             rootObject={this.props.rootObject}
+                            allUsers={this.props.allUsers}
 
                             // status index in statusList that this comments belongs to
                             statusIndex={this.props.statusIndex}

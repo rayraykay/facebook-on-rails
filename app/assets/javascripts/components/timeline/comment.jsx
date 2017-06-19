@@ -37,14 +37,18 @@ class Comment extends React.Component {
         for (let i = 0; i < this.props.replyList.length; i++) {
             replyList.push(
                 <Reply content={this.props.replyList[i].content}
-                       key={i}/>
+                       key={i}
+                       username={find_item_by_id(this.props.allUsers, this.props.replyList[i].user_id).username.toString()}/>
             );
         }
+
+        let username = find_item_by_id(this.props.allUsers, this.props.commentObject.user_id).username.toString();
 
         return (
             <div className="comment">
                 <li>
-                    {this.props.text}
+                    <h5>Comment from: {username}</h5>
+                    <p>{this.props.text}</p>
 
                     <div className="reply-input">
                         <input  placeholder="Write a reply..."

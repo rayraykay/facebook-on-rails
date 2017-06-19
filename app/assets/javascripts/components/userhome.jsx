@@ -6,6 +6,7 @@ class Userhome extends React.Component {
             allUsers: [],
 
             searchBarText: "",
+            searchResult: null,
 
             statusList: [],
             statusBoxText: "",
@@ -16,12 +17,8 @@ class Userhome extends React.Component {
             beingCommented: [],
 
             replyList: [],
-            replyInputText: []
+            replyInputText: [],
         };
-    }
-
-    handleSearchBarChange (text) {
-        this.setState({ searchBarText: text });
     }
 
     componentWillMount () {
@@ -37,7 +34,6 @@ class Userhome extends React.Component {
             url:        "/timeline",
             type:       "GET",
             dataType:   "json",
-
         })
         .done(
             (response) => {
@@ -75,6 +71,11 @@ class Userhome extends React.Component {
     render () {
         return (
             <div className="userhome">
+                <SearchBar  rootObject={this}
+                            text={this.state.searchBarText}
+                            searchResult={this.state.searchResult}
+                />
+
                 <h2>Here's what's going on today, boy</h2>
                 <StatusInput    rootObject={this}
                                 onClick={(postType) => this.handleNewStatus(postType)}
