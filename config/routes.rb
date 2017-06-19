@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'likes/create'
+
     # website routes
     root    'static_pages#index'
     get     '/signup'       => 'users#new'
@@ -12,9 +14,12 @@ Rails.application.routes.draw do
     post    '/statuses/create'
     post    '/comments/create'
     post    '/replies/create'
+    post    '/likes/create'
+    delete  '/likes/delete'
 
     resources :user
     resources :status
     resources :comments
     resources :replies
+    resources :likes
 end

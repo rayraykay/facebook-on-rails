@@ -13,6 +13,7 @@ class Timeline extends React.Component {
                                 allUsers={this.props.allUsers}
                                 statusObject={this.props.statusList[i]}
                                 statusIndex={i} // in status list array
+                                likeList={this.props.likeList[i]}
 
                                 // props for comments
                                 commentList={this.props.commentList[i]}

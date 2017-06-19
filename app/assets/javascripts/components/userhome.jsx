@@ -9,6 +9,7 @@ class Userhome extends React.Component {
 
             statusList: [],
             statusBoxText: "",
+            likeList: [],
 
             commentList: [],
             commentInputText: [],
@@ -53,6 +54,7 @@ class Userhome extends React.Component {
                     allUsers:           response.users,
 
                     statusList:         response.statuses,
+                    likeList:           processRawLikes(response.likes, response.statuses),
 
                     commentList:        commentsAndReplies.commentList,
                     commentInputText:   create_array(response.statuses.length, ""),
@@ -84,6 +86,7 @@ class Userhome extends React.Component {
                             // status props
                             allUsers={this.state.allUsers}
                             statusList={this.state.statusList}
+                            likeList={this.state.likeList}
 
                             commentList={this.state.commentList}
                             beingCommented={this.state.beingCommented}

@@ -13,8 +13,7 @@ class Status extends React.Component {
         .done( () => {
                 console.log("Comment POST success.");
                 rootObject.refreshStateFromDatabase();
-            }
-        )
+        })
         .fail( () => console.log("Failure to POST comment") );
     }
 
@@ -32,7 +31,74 @@ class Status extends React.Component {
         rootObject.setState({ commentInputText: newCommentInputText });
     }
 
+    likeStatus (rootObject, statusID) {
+        $.ajax({
+            url:        "/likes/create",
+            type:       "POST",
+            dataType:   "json",
+            data:       { like: {
+                            user_id: rootObject.state.user_id,
+                            status_id: statusID }
+                        }
+        })
+        .done( () => {
+            console.log("like POST success.");
+            rootObject.refreshStateFromDatabase();
+        })
+        .fail( (response) => {
+            console.log("Failure to POST like");
+            console.log(response)
+            window.alert("Failure to POST like");
+        } );
+    }
+
+    unlikeStatus (rootObject, statusID) {
+        $.ajax({
+            url:        "/likes/delete",
+            type:       "DELETE",
+            dataType:   "json",
+            data:       { like: {
+                            user_id: rootObject.state.user_id,
+                            status_id: statusID }
+                        }
+        })
+        .done( () => {
+            console.log("like DELETE success.");
+            rootObject.refreshStateFromDatabase();
+        })
+        .fail( () => {
+            console.log("Failure to DELETE like");
+            window.alert("Failure to DELETE like");
+        } );
+    }
+
     render () {
+        // process like button and like count
+        let likeCount = null;
+        if (this.props.likeList.length) {
+            likeCount = (<div className="like-count"><h4>{this.props.likeList.length} likes</h4></div>);
+        }
+
+        // first assume that the user has not pressed like until you find a like in the list
+        let hasPressed = false;
+        for (let i = 0; i < this.props.likeList.length && !hasPressed; i++) {
+            if (this.props.likeList[i].user_id == this.props.rootObject.state.user_id) {
+                hasPressed = true;
+            }
+        }
+
+        let likeButton;
+        if (!hasPressed) {
+            likeButton = <div className="like-button">
+                            <button onClick={() => this.likeStatus(this.props.rootObject, this.props.statusObject.id)}>Like</button>
+                         </div>;
+        }
+        else {
+            likeButton = <div className="like-button">
+                            <button onClick={() => this.unlikeStatus(this.props.rootObject, this.props.statusObject.id)}>Unlike</button>
+                         </div>
+        }
+
         // code for handling the user's input for a comment if the reply button is pressed
         let commentElement;
 
@@ -86,8 +152,12 @@ class Status extends React.Component {
                 <li>
                     <h3 className="username">Poster: {username}</h3>
                     <p>{content}</p>
+                    {likeCount}
                     {commentElement}
                </li>
+
+               {likeButton}
+
                <ul>{commentList}</ul>
             </div>
         );

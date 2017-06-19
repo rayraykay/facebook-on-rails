@@ -5,7 +5,8 @@ class UserhomeController < ApplicationController
                                   users:    User.all,
                                   statuses: Status.all,
                                   comments: Comment.all,
-                                  replies:  Reply.all }
+                                  replies:  Reply.all,
+                                  likes:    Like.all }
         else
             # just render index
         end

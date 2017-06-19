@@ -1,9 +1,7 @@
 class RepliesController < ApplicationController
-    def index
-    end
-
     def create
         Reply.create(reply_params) if request.xhr?
+        return render json: {status: :ok}
     end
 
     private

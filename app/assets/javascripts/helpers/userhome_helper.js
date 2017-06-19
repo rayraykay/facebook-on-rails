@@ -68,3 +68,21 @@ function processRawReplies (rawReplyList, statusList, commentList) {
 
     return replyListToAssign;
 }
+
+function processRawLikes (rawLikeList, rawStatusList) {
+    let likeList = [];
+
+    for (let i = 0; i < rawStatusList.length; i++) {
+        let toPush = [];
+
+        for (let j = 0; j < rawLikeList.length; j++) {
+            if (rawLikeList[j].status_id == rawStatusList[i].id) {
+                toPush.push(rawLikeList[j]);
+            }
+        }
+
+        likeList.push(toPush);
+    }
+
+    return likeList;
+}

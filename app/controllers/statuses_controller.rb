@@ -1,9 +1,7 @@
 class StatusesController < ApplicationController
-    def index
-    end
-
     def create
         Status.create(status_params) if request.xhr?
+        
     end
 
     private
