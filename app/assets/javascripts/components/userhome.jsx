@@ -78,7 +78,6 @@ class Userhome extends React.Component {
 
                 <h2>Here's what's going on today, boy</h2>
                 <StatusInput    rootObject={this}
-                                onClick={(postType) => this.handleNewStatus(postType)}
                                 text={this.state.statusBoxText}
                 />
                 <Timeline   // general props
@@ -92,10 +91,6 @@ class Userhome extends React.Component {
                             commentList={this.state.commentList}
                             beingCommented={this.state.beingCommented}
                             commentInputText={this.state.commentInputText}
-                            handleBeingCommented={(statusIndex) => this.handleBeingCommented(statusIndex)}
-                            handleCommentInputChange={
-                                (text, statusIndex) => this.handleCommentInputChange(text, statusIndex)
-                            }
 
                             // reply props
                             replyList={this.state.replyList}
