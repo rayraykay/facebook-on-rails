@@ -1,6 +1,7 @@
 class RepliesController < ApplicationController
     def create
         Reply.create(reply_params) if request.xhr?
+        broadcast_data_to_timeline if request.xhr?
         return render json: {status: :ok}
     end
 

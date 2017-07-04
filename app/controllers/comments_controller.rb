@@ -10,6 +10,7 @@ class CommentsController < ApplicationController
 
     def create
         Comment.create(comment_params) if request.xhr?
+        broadcast_data_to_timeline if request.xhr?
     end
 
     private

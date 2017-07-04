@@ -12,7 +12,6 @@ class Status extends React.Component {
         })
         .done( () => {
                 console.log("Comment POST success.");
-                rootObject.refreshStateFromDatabase();
         })
         .fail( () => console.log("Failure to POST comment") );
     }
@@ -43,7 +42,6 @@ class Status extends React.Component {
         })
         .done( () => {
             console.log("like POST success.");
-            rootObject.refreshStateFromDatabase();
         })
         .fail( (response) => {
             console.log("Failure to POST like");
@@ -64,7 +62,6 @@ class Status extends React.Component {
         })
         .done( () => {
             console.log("like DELETE success.");
-            rootObject.refreshStateFromDatabase();
         })
         .fail( () => {
             console.log("Failure to DELETE like");

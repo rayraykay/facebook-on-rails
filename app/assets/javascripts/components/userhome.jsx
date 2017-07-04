@@ -23,10 +23,7 @@ class Userhome extends React.Component {
 
     componentWillMount () {
         this.refreshStateFromDatabase();
-    }
-
-    componentDidMount () {
-        subscribeToTimeline();
+        subscribeToTimeline(this);
     }
 
     // this function has horrible time complexity, but whatever haha

@@ -21,7 +21,6 @@ class StatusInput extends React.Component {
         })
         .done( () => {
             console.log("Success: Status successfully entered into database");
-            rootObject.refreshStateFromDatabase();
         } )
         .fail( () => {
             console.log("Error: Status post ERROR");

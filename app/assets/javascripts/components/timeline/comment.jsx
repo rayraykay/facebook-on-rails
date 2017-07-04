@@ -20,7 +20,6 @@ class Comment extends React.Component {
         })
         .done( () => {
                 console.log("Reply POST success.");
-                rootObject.refreshStateFromDatabase();
             }
         )
         .fail( () => {

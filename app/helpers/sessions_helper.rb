@@ -24,6 +24,7 @@ module SessionsHelper
 
     # broadcast all data to the client
     def broadcast_data_to_timeline
-        ActionCable.server.broadcast 'timeline_stream', { test: 'Broadcasting data to the timeline from the timeline_stream...' }
+        ActionCable.server.broadcast 'timeline_stream', { status: :ok }
+        puts 'streaming...'
     end
 end
