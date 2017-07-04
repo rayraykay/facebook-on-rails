@@ -1,6 +1,8 @@
 module SessionsHelper
     def log_in (user)
-        session[:user_id] = user.id
+        # example of the session object
+        # session[:user_id] = user.id
+        cookies.signed[:user_id] = user.id
     end
 
     def current_user? (user)
@@ -8,7 +10,7 @@ module SessionsHelper
     end
 
     def current_user
-        @current_user ||= User.find_by(id: session[:user_id])
+        @current_user ||= User.find_by(id: cookies.signed[:user_id])
     end
 
     def logged_in?
@@ -16,7 +18,12 @@ module SessionsHelper
     end
 
     def log_out
-        session.delete(:user_id)
+        cookies.signed[:user_id] = nil
         @current_user = nil
+    end
+
+    # broadcast all data to the client
+    def broadcast_data_to_timeline
+        ActionCable.server.broadcast 'timeline_stream', { test: 'Broadcasting data to the timeline from the timeline_stream...' }
     end
 end

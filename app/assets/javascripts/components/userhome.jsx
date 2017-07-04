@@ -25,6 +25,10 @@ class Userhome extends React.Component {
         this.refreshStateFromDatabase();
     }
 
+    componentDidMount () {
+        subscribeToTimeline();
+    }
+
     // this function has horrible time complexity, but whatever haha
     refreshStateFromDatabase () {
         var self = this;
