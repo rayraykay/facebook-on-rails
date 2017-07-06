@@ -33,11 +33,16 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 # to be able to use console (macOS)
 gem 'rb-readline'
+
 # to enable json response and queries
-gem 'responders'
+# gem 'responders'
+
 # various js frameworks
 gem 'react-rails'
 gem 'jquery-rails'
+
+# styling
+gem 'bootstrap-sass'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

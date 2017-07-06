@@ -1,5 +1,7 @@
-<h1>Welcome!</h1>
-<% if !logged_in? %>
-    <%= link_to 'Log In', login_path %>
-    <%= link_to 'Sign Up', signup_path %>
-<% end %>
+<div class="welcome center jumbotron">
+    <h1>Welcome!</h1>
+    <% if !logged_in? %>
+        <%= link_to 'Log In', login_path %>
+        <%= link_to 'Sign Up', signup_path %>
+    <% end %>
+</div>

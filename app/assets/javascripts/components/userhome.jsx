@@ -77,7 +77,7 @@ class Userhome extends React.Component {
                             searchResult={this.state.searchResult}
                 />
 
-                <h2>Here's what's going on today, boy</h2>
+                <h1 className="greeting">Here's what's going on today, boy</h1>
                 <StatusInput    rootObject={this}
                                 text={this.state.statusBoxText}
                 />

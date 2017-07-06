@@ -30,7 +30,7 @@ class SearchBar extends React.Component {
         }
 
         return (
-            <div className="search">
+            <div className="searchbar">
                 <input  placeholder="Search for a status..."
                         type="text"
                         value={this.props.text}
