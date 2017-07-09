@@ -1,16 +1,25 @@
 <% provide(:title, "Sign Up") %>
-<h1>Sign Up</h1>
 
-<!--need to name the resource, then corresponding URL-->
-<%= form_for(:user, url: signup_path) do |f| %>
-    <%= f.label :username %>
-    <%= f.text_field :username %>
+<div class="signup">
+    <h1>Sign Up</h1>
 
-    <%= f.label :password %>
-    <%= f.password_field :password %>
+    <!--need to name the resource, then corresponding URL-->
+    <%= form_for(:user, url: signup_path) do |f| %>
+        <div class="form-group">
+            <%= f.label :username %>
+            <%= f.text_field :username, :class => 'form-control' %>
+        </div>
 
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
+        <div class="form-group">
+            <%= f.label :password %>
+            <%= f.password_field :password, :class => 'form-control' %>
+        </div>
 
-    <%= f.submit "Sign Up", class: "btn btn-primary" %>
-<% end %>
+        <div class="form-group">
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation, :class => 'form-control'%>
+        </div>
+
+        <%= f.submit "Sign Up", class: "btn btn-primary" %>
+    <% end %>
+</div>

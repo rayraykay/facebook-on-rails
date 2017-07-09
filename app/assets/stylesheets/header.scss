@@ -1,4 +1,7 @@
 header {
-    display: block;
     position: relative;
+
+    .current-user {
+        background-color: rgb(85, 111, 120);
+    }
 }
