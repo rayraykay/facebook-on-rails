@@ -32,7 +32,7 @@ class Timeline extends React.Component {
             );
         }
 
-        return (<div>
+        return (<div className="timeline">
                     <ul>{statusList}</ul>
                 </div>);
     }

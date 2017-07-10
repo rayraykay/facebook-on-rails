@@ -3,6 +3,40 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .searchbar {
+    // positioning
+    position: relative;
+    text-align: center;
+    display: block;
+
+    // size
+    input {
+        width: 70%;
+    }
+
+    .results {
+        width: 70%;
+    }
+}
+
+.status-input {
+    // positioning:
     position: relative;
     display: block;
+    text-align: center;
+
+    input {
+        width: 50%;
+    }
+}
+
+.timeline {
+    // positioning
+    width: 100%;
+    margin-left: 21%;
+
+    .status {
+        .like-count {
+            color: rgb(50, 98, 240);
+        }
+    }
 }

@@ -40,7 +40,9 @@ class SearchBar extends React.Component {
                                     }
                                  }>
                 </input>
-                <ul>{results}</ul>
+                <div className="results">
+                    <ul>{results}</ul>
+                </div>
             </div>
         );
     }
